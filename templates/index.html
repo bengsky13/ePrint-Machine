@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ePrint Machine</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style></style>
+  </head>
+  <body>
+    <input type="hidden" id="sessionId" value="" />
+    <div class="container h-100" id="beforeScan">
+      <div class="row justify-content-center">
+        <div class="text-center h3">SCAN ME</div>
+      </div>
+      <div class="row justify-content-center">
+        <img src="https://chart.googleapis.com/chart?cht=qr&chs=500x500&chld=L|0&chl=0002010102125204581253033605802ID5918simulator%20merchant6005Batam540834000.0062295025QR-x4Zfmz188g1A3gBfLItcOX26480016ID.CO.SHOPEE.WWW0108936009180205099900303UMI63045A7F" alt="QR Code" class="w-50" id="urlQR" onerror="window.location.reload()"/>
+      </div>
+    </div>
+    <div class="container h-100 d-none" id="afterScan">
+      <div class="row justify-content-center">
+        <div class="text-center h3"><span id="countdown">05:00</span> minutes before refresh.</h1></div>
+      </div>
+      <div class="row justify-content-center" id="second">
+        <div class="text-center h3" id="loadingDiv">
+          <div id="loading" class="text-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+            <h3 id="desc">Waiting File Uploaded</h3>
+          </div>
+        </div>
+        <div class="text-center h3 d-none" id="payment">
+            <h4 id="amount"></h4>
+            <div id="loading" class="text-center">
+            <h3 id="desc"></h3>
+            <h4 id="desc">QRIS</h4>
+            <div class="row justify-content-center">
+              <img src="" alt="QR Code" style="width: 30%;" id="qrisQR" />
+            </div>
+            <h3 id="desc">Please Pay</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      let opened = false;
+      let time;
+      const google =
+        "https://chart.googleapis.com/chart?cht=qr&chs=500x500&chld=L|0&chl=";
+      const baseURL = "http://192.168.0.105:5000";
+      const webURL = "http://192.168.0.105:8000/print";
+      init();
+      function init() {
+        fetch(baseURL + "/api/init")
+          .then((response) => {
+            return response.json();
+          })
+          .then((result) => {
+            if (result.success == false) window.location.reload();
+            document.getElementById("urlQR").src =
+              google + webURL + "/" + result.uuid;
+            document.getElementById("sessionId").value = result.uuid;
+            checkSession()
+          });
+      }
+
+      async function checkSession() {
+        const id = document.getElementById("sessionId").value;
+        if (id.length <= 0) return;
+        try {
+          const response = await fetch(baseURL + "/api/" + id + "/status");
+          const result = await response.json();
+          if (result.status == 1 && opened == false) {
+            document.getElementById("afterScan").classList.remove("d-none");
+            document.getElementById("beforeScan").classList.add("d-none");
+            opened = true;
+            setInterval(refreshPage, 1000);
+          }
+          else if(result.status == 2)
+          {
+            document.getElementById("desc").innerHTML = "Waiting Printing Type"
+          }
+          else if(result.status == 3)
+          {
+            document.getElementById("loadingDiv").classList.add("d-none");
+            document.getElementById("payment").classList.remove("d-none");
+            document.getElementById("amount").innerHTML = result.amount
+            document.getElementById("qrisQR").src = google+result.qr
+            document.getElementById("amount").innerHTML = result.amount
+          }
+          else if(result.status == 4)
+          {
+            document.getElementById("payment").classList.add("d-none");
+            document.getElementById("loadingDiv").classList.remove("d-none");
+            document.getElementById("desc").innerHTML = "Start Printing"
+          }
+          else if(result.status == 5)
+          {
+            window.location.reload()
+          }
+        } catch (error) {
+          await checkSession();
+        }
+        await checkSession();
+      }
+      function refreshPage() {
+        var countdownElement = document.getElementById("countdown");
+        var countdownValue = countdownElement.innerText;
+        var timeParts = countdownValue.split(":");
+        var minutes = parseInt(timeParts[0]);
+        var seconds = parseInt(timeParts[1]);
+
+        if (minutes === 0 && seconds === 0) {
+          // Refresh the page
+          location.reload();
+        } else {
+          if (seconds === 0) {
+            minutes--;
+            seconds = 59;
+          } else {
+            seconds--;
+          }
+
+          // Format minutes and seconds with leading zeros
+          var formattedMinutes = minutes.toString().padStart(2, "0");
+          var formattedSeconds = seconds.toString().padStart(2, "0");
+
+          // Update the countdown
+          countdownElement.innerText =
+            formattedMinutes + ":" + formattedSeconds;
+        }
+      }
+
+    </script>
+  </body>
+</html>
