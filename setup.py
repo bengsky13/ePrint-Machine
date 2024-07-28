@@ -30,7 +30,7 @@ try:
     cd {cwd}
     python3 app.py &
     sleep 10
-    chromium-browser --start-fullscreen --app=http://localhost:5000
+    chromium-browser --start-fullscreen --force-device-scale-factor=3 --app=http://localhost:5000
     """
     with open("run.sh", "w") as f:
         f.write(script)
