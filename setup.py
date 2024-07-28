@@ -26,7 +26,7 @@ chromium-browser --start-fullscreen --app=http://localhost:5000
 """
 with open("run.sh", "w") as f:
     f.write(script)
-os.chmod("run.sh", current_permissions | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+os.chmod("run.sh", 0o755)
 with open("/etc/xdg/lxsession/LXDE-pi/autostart", "a") as f:
     f.write("@"+cwd+"/run.sh")
 print("Sucessfully setup")
