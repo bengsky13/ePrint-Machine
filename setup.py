@@ -20,7 +20,10 @@ if req == 401:
     print("Invalid API KEY")
     sys.exit(1)
 try:
-    subprocess.check_call(['sudo','-u','pi', 'pip', 'install','--user', '--break-system-packages', '-r', 'requirements.txt'])
+    pip_install_command = [
+    'sudo', '-u', 'pi', 'pip', 'install', '--user', '--ignore-installed', '--break-system-packages', '-r', 'requirements.txt'
+    ]
+    subprocess.check_call(pip_install_command)
     cwd = os.getcwd()
     script = f"""#!/bin/bash
     export EPRINT_API_KEY="{key}"
