@@ -39,7 +39,7 @@ def checkSession(id):
         printer_name = 'EPSON_L120_Series'
         options = {
         'print-quality': '5',
-        'print-color-mode': 'color' if color == 2 else 'monochrome'
+        'print-color-mode': 'color' if data['color'] == 2 else 'monochrome'
         }
         document_path = f'{baseURL}/../uploads/{id}/file.pdf'
         response = requests.get(document_path, verify=False)
