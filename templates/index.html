@@ -84,6 +84,7 @@
             document.getElementById("loadingDiv").classList.add("d-none");
             document.getElementById("payment").classList.remove("d-none");
             document.getElementById("amount").innerHTML = result.amount
+            document.getElementById("qrisQR").innerHTML = ""
             new QRCode(document.getElementById("qrisQR"), result.qr);
             document.getElementById("amount").innerHTML = result.amount
           }
@@ -94,6 +95,12 @@
             document.getElementById("desc").innerHTML = "Start Printing"
           }
           else if(result.status == 5)
+          {
+            document.getElementById("payment").classList.add("d-none");
+            document.getElementById("loadingDiv").classList.remove("d-none");
+            document.getElementById("desc").innerHTML = "Printing"
+          }
+          else if(result.status == 6)
           {
             window.location.reload()
           }
