@@ -32,12 +32,26 @@ def checkSession(id):
     if data['status'] == 0:
         time.sleep(1)
     elif data['status'] == 4:
-        request = requests.post(f"{baseURL}/{id}/status", data={"status":5}, headers=headers, verify=False)
+        requests.post(f"{baseURL}/{id}/update", data={"status":5}, headers=headers, verify=False)
         conn = cups.Connection()
         printers = conn.getPrinters()
-        printer_name = 'PRINTER-1'
-        document_path = f'{baseURL}/uploads/{id}/file.pdf'
-        print_job_id = conn.printFile(printer_name, document_path, f"JOB-{id}", {})
+        printer_name = list(printers.keys())[0]
+        printer_name = 'EPSON_L120_Series'
+        options = {
+        'print-quality': '5',
+        'print-color-mode': 'color' if color == 2 else 'monochrome'
+        }
+        document_path = f'{baseURL}/../uploads/{id}/file.pdf'
+        response = requests.get(document_path, verify=False)
+        file_path = '/tmp/'+id
+        with open(file_path, 'wb') as file:
+            file.write(response.content)
+        print_job_id = conn.printFile(printer_name, file_path, f"JOB-{id}", {})
+    elif data['status'] == 5:
+        conn = cups.Connection()
+        jobs = conn.getJobs()
+        if str(jobs) == "{}":
+            requests.post(f"{baseURL}/{id}/update", data={"status":6}, headers=headers, verify=False)
     else:
         time.sleep(3)
     return request.json()
