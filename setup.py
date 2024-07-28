@@ -21,6 +21,7 @@ if req == 401:
     sys.exit(1)
 try:
     subprocess.check_call(['pip', 'install', '--break-system-packages', '-r', 'requirements.txt'])
+    subprocess.check_call(['pip', 'install', '--break-system-packages', '--user', '-r', 'requirements.txt'])
     cwd = os.getcwd()
     script = f"""#!/bin/bash
     export EPRINT_API_KEY="{key}"
