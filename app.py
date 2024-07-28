@@ -5,7 +5,7 @@ import cups
 import time
 import requests
 
-baseURL = "http://eprints.id/api"
+baseURL = "https://eprints.id/api"
 API_KEY = os.getenv("EPRINT_API_KEY")
 app = Flask(__name__)
 CORS(app)
