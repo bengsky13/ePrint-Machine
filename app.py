@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template
 from flask_cors import CORS
+import cups
 import time
 import requests
 
@@ -30,6 +31,13 @@ def checkSession(id):
     # time.sleep(1)
     if data['status'] == 0:
         time.sleep(1)
+    elif data['status'] == 3:
+        request = requests.post(f"{baseURL}/{id}/status", data={"status":4}headers=headers)
+        conn = cups.Connection()
+        printers = conn.getPrinters()
+        printer_name = 'PRINTER-1'
+        document_path = f'{baseURL}/uploads/{id}/file.pdf'
+        print_job_id = conn.printFile(printer_name, document_path, f"JOB-{id}", {})
     else:
         time.sleep(3)
     return request.json()
