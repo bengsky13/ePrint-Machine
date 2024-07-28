@@ -23,6 +23,9 @@ try:
     pip_install_command = [
     'sudo', '-u', 'pi', 'pip', 'install', '--user','--break-system-packages', '-r', 'requirements.txt'
     ]
+    pip_install_command = [
+    'apt-get','install','unclutter'
+    ]
     subprocess.check_call(pip_install_command)
     cwd = os.getcwd()
     script = f"""#!/bin/bash
@@ -36,7 +39,7 @@ try:
         f.write(script)
     os.chmod("run.sh", 0o755)
     with open("/etc/xdg/lxsession/LXDE-pi/autostart", "a") as f:
-        f.write("\n@"+cwd+"/run.sh\n")
+        f.write("\n@unclutter -idle 0\n@"+cwd+"/run.sh\n")
     print("Sucessfully setup")
     print("Now you can try to reboot")
 except:
