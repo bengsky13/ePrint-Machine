@@ -12,10 +12,9 @@
     <input type="hidden" id="sessionId" value="" />
     <div class="container h-100" id="beforeScan">
       <div class="row justify-content-center">
-        <div class="text-center h3">SCAN ME</div>
+        <div class="text-center h3" id="qrInit">SCAN ME</div>
       </div>
       <div class="row justify-content-center">
-        <img src="https://chart.googleapis.com/chart?cht=qr&chs=500x500&chld=L|0&chl=0002010102125204581253033605802ID5918simulator%20merchant6005Batam540834000.0062295025QR-x4Zfmz188g1A3gBfLItcOX26480016ID.CO.SHOPEE.WWW0108936009180205099900303UMI63045A7F" alt="QR Code" class="w-50" id="urlQR" onerror="window.location.reload()"/>
       </div>
     </div>
     <div class="container h-100 d-none" id="afterScan">
@@ -44,11 +43,10 @@
         </div>
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <script>
       let opened = false;
       let time;
-      const google =
-        "https://chart.googleapis.com/chart?cht=qr&chs=500x500&chld=L|0&chl=";
       const baseURL = "http://localhost:5000";
       const webURL = "http://eprint.id/print";
       init();
@@ -59,8 +57,7 @@
           })
           .then((result) => {
             if (result.success == false) window.location.reload();
-            document.getElementById("urlQR").src =
-              google + webURL + "/" + result.uuid;
+            new QRCode(document.getElementById("qrInit"), webURL+"/"+result.uuid);
             document.getElementById("sessionId").value = result.uuid;
             checkSession()
           });
