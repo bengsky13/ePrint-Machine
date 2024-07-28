@@ -46,7 +46,7 @@ def checkSession(id):
         file_path = '/tmp/'+id
         with open(file_path, 'wb') as file:
             file.write(response.content)
-        print_job_id = conn.printFile(printer_name, file_path, f"JOB-{id}", {})
+        print_job_id = conn.printFile(printer_name, file_path, f"JOB-{id}", options)
     elif data['status'] == 5:
         conn = cups.Connection()
         jobs = conn.getJobs()
