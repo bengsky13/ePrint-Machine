@@ -31,8 +31,8 @@ def checkSession(id):
     # time.sleep(1)
     if data['status'] == 0:
         time.sleep(1)
-    elif data['status'] == 3:
-        request = requests.post(f"{baseURL}/{id}/status", data={"status":4}, headers=headers, verify=False)
+    elif data['status'] == 4:
+        request = requests.post(f"{baseURL}/{id}/status", data={"status":5}, headers=headers, verify=False)
         conn = cups.Connection()
         printers = conn.getPrinters()
         printer_name = 'PRINTER-1'
