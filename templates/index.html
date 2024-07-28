@@ -84,7 +84,7 @@
             document.getElementById("loadingDiv").classList.add("d-none");
             document.getElementById("payment").classList.remove("d-none");
             document.getElementById("amount").innerHTML = result.amount
-            document.getElementById("qrisQR").src = google+result.qr
+            new QRCode(document.getElementById("qrisQR"), result.qr);
             document.getElementById("amount").innerHTML = result.amount
           }
           else if(result.status == 4)
