@@ -19,19 +19,22 @@ req = requests.get("http://eprint.id/api/VERIFY/status", headers={"X-API-KEY":ke
 if req == 401:
     print("Invalid API KEY")
     sys.exit(1)
-subprocess.check_call(['pip', 'install', '-r', 'requirements.txt'])
-cwd = os.getcwd()
-script = f"""#!/bin/bash
-export EPRINT_API_KEY="{key}"
-cd {cwd}
-python3 app.py &
-sleep 10
-chromium-browser --start-fullscreen --app=http://localhost:5000
-"""
-with open("run.sh", "w") as f:
-    f.write(script)
-os.chmod("run.sh", 0o755)
-with open("/etc/xdg/lxsession/LXDE-pi/autostart", "a") as f:
-    f.write("\n@"+cwd+"/run.sh\n")
-print("Sucessfully setup")
-print("Now you can try to reboot")
+try:
+    subprocess.check_call(['pip', 'install', '-r', 'requirements.txt'])
+    cwd = os.getcwd()
+    script = f"""#!/bin/bash
+    export EPRINT_API_KEY="{key}"
+    cd {cwd}
+    python3 app.py &
+    sleep 10
+    chromium-browser --start-fullscreen --app=http://localhost:5000
+    """
+    with open("run.sh", "w") as f:
+        f.write(script)
+    os.chmod("run.sh", 0o755)
+    with open("/etc/xdg/lxsession/LXDE-pi/autostart", "a") as f:
+        f.write("\n@"+cwd+"/run.sh\n")
+    print("Sucessfully setup")
+    print("Now you can try to reboot")
+except:
+    print("Setup Failed")
