@@ -21,7 +21,7 @@ if req == 401:
     sys.exit(1)
 try:
     pip_install_command = [
-    'sudo', '-u', 'pi', 'pip', 'install', '--user', '--ignore-installed', '--break-system-packages', '-r', 'requirements.txt'
+    'sudo', '-u', 'pi', 'pip', 'install', '--user','--break-system-packages', '-r', 'requirements.txt'
     ]
     subprocess.check_call(pip_install_command)
     cwd = os.getcwd()
