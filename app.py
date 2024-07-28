@@ -21,18 +21,18 @@ def init():
     headers = {
         "X-API-KEY": API_KEY
     }
-    request = requests.get(f"{baseURL}/initialize", headers=headers)
+    request = requests.get(f"{baseURL}/initialize", headers=headers, verify=False)
     return request.json()
 
 @app.route('/api/<id>/status')
 def checkSession(id):
-    request = requests.get(f"{baseURL}/{id}/status", headers=headers)
+    request = requests.get(f"{baseURL}/{id}/status", headers=headers, verify=False)
     data = request.json()
     # time.sleep(1)
     if data['status'] == 0:
         time.sleep(1)
     elif data['status'] == 3:
-        request = requests.post(f"{baseURL}/{id}/status", data={"status":4}, headers=headers)
+        request = requests.post(f"{baseURL}/{id}/status", data={"status":4}, headers=headers, verify=False)
         conn = cups.Connection()
         printers = conn.getPrinters()
         printer_name = 'PRINTER-1'

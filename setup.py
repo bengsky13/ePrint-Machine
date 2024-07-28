@@ -15,7 +15,7 @@ parser.add_argument('--key', required=True, help='The API key for the applicatio
 args = parser.parse_args()
 key = args.key
 ## VERIFY APIKEY
-req = requests.get("https://eprints.id/api/VERIFY/status", headers={"X-API-KEY":key}).status_code
+req = requests.get("https://eprints.id/api/VERIFY/status", headers={"X-API-KEY":key}, verify=False).status_code
 if req == 401:
     print("Invalid API KEY")
     sys.exit(1)
