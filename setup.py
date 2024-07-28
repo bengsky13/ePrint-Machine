@@ -2,6 +2,18 @@ import argparse
 import os
 import sys
 import requests
+import subprocess
+
+def install_requirements(requirements_file):
+    try:
+        with open(requirements_file, 'r') as file:
+            for line in file:
+                package = line.strip()
+                if package and not package.startswith('#'):
+                    subprocess.check_call([sys.executable, '-m', 'pip', 'install', package])
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
 
 if os.geteuid() != 0:
     print("Please run the setup as sudo example: sudo python3 setup.py --key API_KEY")
@@ -16,6 +28,8 @@ req = requests.get("http://eprint.id/api/VERIFY/status", headers={"X-API-KEY":ke
 if req == 401:
     print("Invalid API KEY")
     sys.exit(1)
+requirements_file = 'requirements.txt'
+install_requirements(requirements_file)
 cwd = os.getcwd()
 script = f"""#!/bin/bash
 export EPRINT_API_KEY="{key}"
