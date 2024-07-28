@@ -28,6 +28,6 @@ with open("run.sh", "w") as f:
     f.write(script)
 os.chmod("run.sh", 0o755)
 with open("/etc/xdg/lxsession/LXDE-pi/autostart", "a") as f:
-    f.write("@"+cwd+"/run.sh")
+    f.write("\n@"+cwd+"/run.sh\n")
 print("Sucessfully setup")
 print("Now you can try to reboot")
