@@ -59,7 +59,10 @@
             new QRCode(document.getElementById("qrInit"), webURL+"/"+result.uuid);
             document.getElementById("sessionId").value = result.uuid;
             checkSession()
-          });
+          }).catch((error) => {
+      console.error('There has been a problem with your fetch operation:', error);
+      window.location.reload();
+    });
       }
 
       async function checkSession() {
