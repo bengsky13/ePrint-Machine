@@ -98,6 +98,8 @@
           }
           else if(result.status == 5)
           {
+            function refreshPage(){}
+            document.getElementById("countdown").innerHTML = '';
             document.getElementById("payment").classList.add("d-none");
             document.getElementById("loadingDiv").classList.remove("d-none");
             document.getElementById("desc").innerHTML = "Printing"
