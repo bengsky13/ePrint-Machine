@@ -71,7 +71,7 @@
         try {
           const response = await fetch(baseURL + "/api/" + id + "/status");
           const result = await response.json();
-          if (result.status !== 1 && opened == false) {
+          if (result.status !== 0 && opened == false) {
             document.getElementById("afterScan").classList.remove("d-none");
             document.getElementById("beforeScan").classList.add("d-none");
             opened = true;
