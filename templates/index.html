@@ -75,7 +75,7 @@
             document.getElementById("afterScan").classList.remove("d-none");
             document.getElementById("beforeScan").classList.add("d-none");
             opened = true;
-            setInterval(refreshPage, 1000);
+            let intervalId = setInterval(refreshPage, 1000);
           }
           if(result.status == 2)
           {
@@ -98,7 +98,7 @@
           }
           else if(result.status == 5)
           {
-            function refreshPage(){}
+            clearInterval(intervalId);
             document.getElementById("divCountdown").innerHTML = '';
             document.getElementById("payment").classList.add("d-none");
             document.getElementById("loadingDiv").classList.remove("d-none");
