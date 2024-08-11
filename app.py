@@ -26,8 +26,8 @@ def init():
 
 @app.route('/api/<id>/status')
 def checkSession(id):
-    time.sleep(1)
     request = requests.get(f"{baseURL}/{id}/status", headers=headers, verify=False)
+    return request.text
     data = request.json()
     if data['status'] == 0:
         time.sleep(1)
@@ -52,8 +52,6 @@ def checkSession(id):
         jobs = conn.getJobs()
         if str(jobs) == "{}":
             requests.post(f"{baseURL}/{id}/update", data={"status":6}, headers=headers, verify=False)
-    else:
-        time.sleep(3)
     return request.json()
 
 if __name__ == '__main__':

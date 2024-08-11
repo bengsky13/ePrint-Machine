@@ -19,7 +19,7 @@
     </div>
     <div class="container h-100 d-none" id="afterScan">
       <div class="row justify-content-center">
-        <div class="text-center h3"><span id="countdown">05:00</span> minutes before refresh.</h1></div>
+        <div class="text-center h3" id="divCountdown"><span id="countdown">05:00</span> minutes before refresh.</h1></div>
       </div>
       <div class="row justify-content-center" id="second">
         <div class="text-center h4" id="loadingDiv">
@@ -71,13 +71,13 @@
         try {
           const response = await fetch(baseURL + "/api/" + id + "/status");
           const result = await response.json();
-          if (result.status == 1 && opened == false) {
+          if (result.status !== 1 && opened == false) {
             document.getElementById("afterScan").classList.remove("d-none");
             document.getElementById("beforeScan").classList.add("d-none");
             opened = true;
             setInterval(refreshPage, 1000);
           }
-          else if(result.status == 2)
+          if(result.status == 2)
           {
             document.getElementById("desc").innerHTML = "Waiting Printing Color"
           }
@@ -99,7 +99,7 @@
           else if(result.status == 5)
           {
             function refreshPage(){}
-            document.getElementById("countdown").innerHTML = '';
+            document.getElementById("divCountdown").innerHTML = '';
             document.getElementById("payment").classList.add("d-none");
             document.getElementById("loadingDiv").classList.remove("d-none");
             document.getElementById("desc").innerHTML = "Printing"
