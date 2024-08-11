@@ -26,9 +26,9 @@ def init():
 
 @app.route('/api/<id>/status')
 def checkSession(id):
+    time.sleep(1)
     request = requests.get(f"{baseURL}/{id}/status", headers=headers, verify=False)
     data = request.json()
-    # time.sleep(1)
     if data['status'] == 0:
         time.sleep(1)
     elif data['status'] == 4:
