@@ -46,6 +46,7 @@
     <script>
       let opened = false;
       let time;
+      let intervalId = null;
       const baseURL = "http://localhost:5000";
       const webURL = "https://eprints.id/print";
       init();
@@ -75,7 +76,7 @@
             document.getElementById("afterScan").classList.remove("d-none");
             document.getElementById("beforeScan").classList.add("d-none");
             opened = true;
-            let intervalId = setInterval(refreshPage, 1000);
+            intervalId = setInterval(refreshPage, 1000);
           }
           if(result.status == 2)
           {
