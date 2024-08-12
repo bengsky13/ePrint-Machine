@@ -47,6 +47,7 @@
       let opened = false;
       let time;
       let intervalId = null;
+      let clearerd = false;
       const baseURL = "http://localhost:5000";
       const webURL = "https://eprints.id/print";
       init();
@@ -99,7 +100,10 @@
           }
           else if(result.status == 5)
           {
-            clearInterval(intervalId);
+            if(clearerd == false){
+              clearInterval(intervalId);
+              cleared = true
+            }
             document.getElementById("divCountdown").innerHTML = '';
             document.getElementById("payment").classList.add("d-none");
             document.getElementById("loadingDiv").classList.remove("d-none");
