@@ -31,6 +31,7 @@ def checkSession(id):
     if data['status'] == 0:
         time.sleep(1)
     elif data['status'] == 4:
+        time.sleep(1)
         requests.post(f"{baseURL}/{id}/update", data={"status":5}, headers=headers, verify=False)
         conn = cups.Connection()
         printers = conn.getPrinters()
